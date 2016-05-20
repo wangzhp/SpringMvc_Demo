@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangzhp.model">
+
+ <select id="getperson" resultType="com.wangzhp.model.Demo1" parameterType="String">
+    select * from demo where name=#{name}
+ </select>
+  <insert id="insert"  parameterType="com.wangzhp.model.Demo1">
+     insert into demo(name,age)values(#{name},#{age})
+  </insert>
+  <delete id="delete" parameterType="String">
+   delete from demo where name=#{name}
+
+  </delete>
+   
+   <select id="selectAll" resultMap="mapAll"  parameterType="int">
+     select * from teacher t,class c,student s where t.t_id=c.teacher_id and c.c_id=s.class_id and c.c_id=#{id}
+   </select>
+  <resultMap type="com.wangzhp.model.Classes" id="mapAll" >
+  <id column="c_id"  property="id"/>
+  <result property="name" column="c_name"/>
+  <association property="teacher"  javaType="com.wangzhp.model.Teacher" column="teacher_id" >
+   <id property="id" column="t_id"/>
+   <result property="name" column="t_name"/>
+  </association>
+  <collection property="students"  ofType="com.wangzhp.model.Student" >
+    <id property="id" column="s_id"/>
+   <result property="name" column="s_name"/>
+   
+  </collection>
+  </resultMap>
+ </mapper>
